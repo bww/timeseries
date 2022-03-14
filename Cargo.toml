@@ -2,6 +2,8 @@
 name = "timeseries"
 version = "0.1.0"
 edition = "2021"
+description = "Generate a series of timestamps between two bounds."
+license = "BSD-3-Clause"
 
 [dependencies]
 chrono = "0.4"
