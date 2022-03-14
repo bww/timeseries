@@ -6,7 +6,7 @@ use structopt::StructOpt;
 #[derive(StructOpt)]
 pub struct Options {
   cmd: String,
-  // subcmds: Vec<String>,
+  subcmds: Vec<String>,
   #[structopt(long)]
   since: Option<chrono::DateTime<chrono::Utc>>,
   #[structopt(long)]
@@ -39,7 +39,7 @@ fn gen_series(opts: &Options) -> Result<(), error::Error> {
   };
   let mut cursor = since.clone();
   while cursor <= until {
-    println!("{}", cursor.to_rfc3339());
+    println!("{}", cursor.to_rfc3339_opts(chrono::SecondsFormat::Secs, true));
     cursor = cursor + stride;
   }
   Ok(())
