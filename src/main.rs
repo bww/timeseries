@@ -25,12 +25,12 @@ fn main() -> Result<(), error::Error> {
 }
 
 fn gen_series(opts: &Options) -> Result<(), error::Error> {
-  let since = match opts.since {
-    Some(since) => time::parse_date(&since)?,
+  let since = match &opts.since {
+    Some(since) => time::parse_date(since)?,
     None => return Err(error::Error::MissingArgument("--since".to_string())),
   };
-  let until = match opts.until {
-    Some(until) => time::parse_date(&until)?,
+  let until = match &opts.until {
+    Some(until) => time::parse_date(until)?,
     None => chrono::Utc::now(),
   };
   let stride = match opts.stride {
