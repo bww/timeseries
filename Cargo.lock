@@ -215,7 +215,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "timeseries"
+name = "timeseries-cli"
 version = "0.1.0"
 dependencies = [
  "chrono",

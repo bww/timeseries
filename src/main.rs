@@ -17,7 +17,6 @@ pub struct Options {
 
 fn main() -> Result<(), error::Error> {
   let opts = Options::from_args();
-  println!("Hello, world! {}", opts.cmd);
   match opts.cmd.as_str() {
     "series" => gen_series(&opts),
     _        => Err(error::Error::NoSuchCommand(opts.cmd)),

@@ -1,9 +1,13 @@
 [package]
-name = "timeseries"
+name = "timeseries-cli"
 version = "0.1.0"
 edition = "2021"
 description = "Generate a series of timestamps between two bounds."
 license = "BSD-3-Clause"
+
+[[bin]]
+name = "timeseries"
+path = "src/main.rs"
 
 [dependencies]
 chrono = "0.4"
