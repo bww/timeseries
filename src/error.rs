@@ -21,7 +21,7 @@ impl From<chrono::format::ParseError> for Error {
 }
 
 impl<E> From<nom::Err<E>> for Error {
-  fn from(error: nom::Err<E>) -> Self {
+  fn from(_: nom::Err<E>) -> Self {
     Self::ParseDurationError
   }
 }
