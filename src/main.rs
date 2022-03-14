@@ -1,3 +1,4 @@
+mod time;
 mod error;
 
 use chrono;
@@ -8,9 +9,9 @@ pub struct Options {
   cmd: String,
   subcmds: Vec<String>,
   #[structopt(long)]
-  since: Option<chrono::DateTime<chrono::Utc>>,
+  since: Option<String>,
   #[structopt(long)]
-  until: Option<chrono::DateTime<chrono::Utc>>,
+  until: Option<String>,
   #[structopt(long)]
   stride: Option<i64>,
 }
@@ -25,11 +26,11 @@ fn main() -> Result<(), error::Error> {
 
 fn gen_series(opts: &Options) -> Result<(), error::Error> {
   let since = match opts.since {
-    Some(since) => since,
+    Some(since) => time::parse_date(&since)?,
     None => return Err(error::Error::MissingArgument("--since".to_string())),
   };
   let until = match opts.until {
-    Some(until) => until,
+    Some(until) => time::parse_date(&until)?,
     None => chrono::Utc::now(),
   };
   let stride = match opts.stride {
