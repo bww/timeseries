@@ -42,13 +42,14 @@ fn value_primary(input: &str) -> nom::IResult<&str, i64> {
 
 fn is_unit(c: char) -> bool {
   match c {
-    'h' | 'm' | 's' => true,
+    'd' | 'h' | 'm' | 's' => true,
     _ => false,
   }
 }
 
 fn parse_unit(input: &str) -> Result<i64, error::Error> {
   match input {
+    "d" => Ok(60 * 60 * 24), // naive day: 24 hours
     "h" => Ok(60 * 60),
     "m" => Ok(60),
     "s" => Ok(1),
@@ -118,16 +119,19 @@ mod tests {
   fn test_parse_duration() {
     assert_eq!(Ok(chrono::Duration::seconds(1)), parse_duration("1s"));
     assert_eq!(Ok(chrono::Duration::seconds(3600)), parse_duration("1h"));
+    assert_eq!(Ok(chrono::Duration::seconds(86400)), parse_duration("1d"));
     assert_eq!(Ok(chrono::Duration::seconds(3660)), parse_duration("1h1m"));
     assert_eq!(Ok(chrono::Duration::seconds(7200)), parse_duration("1h1h"));
     assert_eq!(Ok(chrono::Duration::seconds(3660)), parse_duration(" 1h1m "));
     assert_eq!(Ok(chrono::Duration::seconds(1)), parse_duration("+1s"));
     assert_eq!(Ok(chrono::Duration::seconds(3600)), parse_duration("+1h"));
+    assert_eq!(Ok(chrono::Duration::seconds(86400)), parse_duration("+1d"));
     assert_eq!(Ok(chrono::Duration::seconds(3660)), parse_duration("+1h1m"));
     assert_eq!(Ok(chrono::Duration::seconds(7200)), parse_duration("+1h1h"));
     assert_eq!(Ok(chrono::Duration::seconds(3660)), parse_duration(" +1h1m "));
     assert_eq!(Ok(chrono::Duration::seconds(-1)), parse_duration("-1s"));
     assert_eq!(Ok(chrono::Duration::seconds(-3600)), parse_duration("-1h"));
+    assert_eq!(Ok(chrono::Duration::seconds(-86400)), parse_duration("-1d"));
     assert_eq!(Ok(chrono::Duration::seconds(-3660)), parse_duration("-1h1m"));
     assert_eq!(Ok(chrono::Duration::seconds(-7200)), parse_duration("-1h1h"));
     assert_eq!(Ok(chrono::Duration::seconds(-3660)), parse_duration(" -1h1m "));
