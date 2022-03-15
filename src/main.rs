@@ -13,7 +13,7 @@ pub struct Options {
   #[structopt(long)]
   until: Option<String>,
   #[structopt(long)]
-  stride: Option<i64>,
+  stride: Option<String>,
 }
 
 fn main() -> Result<(), error::Error> {
@@ -33,8 +33,8 @@ fn gen_series(opts: &Options) -> Result<(), error::Error> {
     Some(until) => time::parse_date(until)?,
     None => chrono::Utc::now(),
   };
-  let stride = match opts.stride {
-    Some(stride) => chrono::Duration::seconds(stride),
+  let stride = match &opts.stride {
+    Some(stride) => time::parse_duration(stride)?,
     None => chrono::Duration::hours(24), // default stride is one day
   };
   let mut cursor = since.clone();
